@@ -1,0 +1,45 @@
+.diagram{float:left;width:340px;height:335px}
+.diagram{background:#fff url(f.jpg) 50% 10px no-repeat}
+h2{position:absolute;margin:175px -20px;width:390px;text-align:center;font:36px "arial black"}
+.diagram .mylabel{
+	background-color: #dcdcdc;
+	border-color: #ddd;
+	color: #000;
+	font-weight: bold;position:absolute;display:block;padding:1px 0 1px 2px;
+	width:100px;font-size:130%;text-align:center; border-radius:4px;}
+.pitcher{margin:235px 120px}
+.catcher{margin:285px 120px}
+.first{margin:185px 205px}
+.second{margin:145px 175px}
+.over{margin:95px 145px}
+.short{margin:145px 65px}
+.leftcenter{margin:45px 65px}
+.rightcenter{margin:45px 185px}
+.third{margin:185px 35px}
+.center{margin:60px 122px}
+.right{margin:105px 220px}
+.left{margin:105px 25px}
+.sittingBox{display:none;position:absolute;margin:230px 235px;padding:4px;width:90px;background:#eee;border-radius:4px;overflow:hidden;z-index:10}
+
+
+.no-print {display:none;}
+md-toolbar {display: none;}
+.md-toolbar {display:none;}
+.md-whiteframe-1dp {box-shadow: none;}
+table.md-table td.md-cell {
+	color: #000;
+	font-weight: bold;
+	line-height: 40px;
+	background-color: #eee;
+}
+
+table.md-table td.md-cell md-select>.md-select-value>span.md-select-icon {
+	display:none;
+}
+
+.sitting {
+	display:none;
+	background-color: #ddd;
+	color: #000;
+}
+

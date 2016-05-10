@@ -1,0 +1,9 @@
+
+<div class="positions" ng-repeat="inning in vm.innings track by $index">
+<h2>{{$index}}</h2>
+<label ng-repeat="p in inning.playing" class="p.position.display" style="display: block;">
+{{p.player.name}}
+</label>
+<p class="sittingBox">sitting:<br>
+<span class="sitting"><div ng-repeat="player in inning.sitting">{{player.name}}</div></span></p>
+</div>
