@@ -1,0 +1,87 @@
+
+<md-content class="md-padding">
+<md-table-container flex class="print-landscape">
+  <table flex md-table>
+    <thead md-head md-order="vm.myOrder">
+      <tr md-row flex>
+        <th md-column><span>#</span></th>
+        <th md-column md-order-by="name"><span>Player</span></th>
+        <th md-column md-order-by="abs"><span>At Bats</span></th>
+        <th md-column md-order-by="hits"><span>Hits</span></th>
+        <th md-column md-order-by="avg"><span>Batting Avg</span></th>
+        <th md-column md-order-by="recentAvg"><span>Batting Avg Last 3 Games</span></th>
+        <th md-column md-order-by="rbis"><span>RBIs</span></th>
+        <th md-column md-order-by="runs"><span>Runs</span></th>
+        <th md-column md-order-by="totalbases"><span>Total Bases</span></th>
+        <th md-column md-order-by="ks"><span>Ks</span></th>
+        <th md-column md-order-by="pitcher"><span>Pitcher</span></th>
+        <th md-column md-order-by="catcher"><span>Catcher</span></th>
+        <th md-column md-order-by="first"><span>1st Base</span></th>
+        <th md-column md-order-by="second"><span>2nd Base</span></th>
+        <th md-column md-order-by="third"><span>3rd Base</span></th>
+        <th md-column md-order-by="shortstop"><span>Shortstop</span></th>
+        <th md-column md-order-by="left"><span>Left Field</span></th>
+        <th md-column md-order-by="leftcenter"><span>Left Center</span></th>
+        <th md-column md-order-by="rightcenter"><span>Right Center</span></th>
+        <th md-column md-order-by="right"><span>Right Field</span></th>  
+        <th md-column md-order-by="restricted"><span>Restricted</span></th>
+        <th md-column md-order-by="outfield"><span>Outfield</span></th>
+        <th md-column md-order-by="bench"><span>Bench</span></th>    
+      </tr>
+    </thead>
+    <tbody md-body>
+      <tr class="{{player.name.toLowerCase()}}" md-row md-select="player" flex md-auto-label ng-repeat="(playerIndex,player) in vm.stats | orderBy: vm.myOrder" style="line-height:45px">
+        <td md-cell md-numeric>{{playerIndex+1}}</td>
+        <td md-cell>{{player.name}}</td>
+        <td md-cell md-numeric>{{player.abs}}</td>
+        <td md-cell md-numeric>{{player.hits}}</td>
+        <td md-cell md-numeric>{{player.avg}}</td>
+        <td md-cell md-numeric>{{player.recentAvg}}</td>
+        <td md-cell md-numeric>{{player.rbis}}</td>
+        <td md-cell md-numeric>{{player.runs}}</td>
+        <td md-cell md-numeric>{{player.totalbases}}</td>
+        <td md-cell md-numeric>{{player.ks}}</td>
+        <td md-cell md-numeric>{{player.pitcher}}</td>
+        <td md-cell md-numeric>{{player.catcher}}</td>
+        <td md-cell md-numeric>{{player.first}}</td>
+        <td md-cell md-numeric>{{player.second}}</td>
+        <td md-cell md-numeric>{{player.third}}</td>
+        <td md-cell md-numeric>{{player.shortstop}}</td>
+        <td md-cell md-numeric>{{player.left}}</td>
+        <td md-cell md-numeric>{{player.leftcenter}}</td>
+        <td md-cell md-numeric>{{player.rightcenter}}</td>
+        <td md-cell md-numeric>{{player.right}}</td>
+        <td md-cell md-numeric>{{player.restricted}}</td>
+        <td md-cell md-numeric>{{player.outfield}}</td>
+        <td md-cell md-numeric>{{player.bench}}</td>
+      </tr>
+    </tbody>
+    <tfoot md-foot class="no-print">
+      <tr md-row>
+       <td md-cell></td>
+        <td md-cell></td>
+        <td md-cell>{{vm.teamStats.abs}}</td>
+        <td md-cell>{{vm.teamStats.hits}}</td>
+        <td md-cell>{{vm.teamStats.avg}}</td>
+        <td md-cell>{{vm.teamStats.recentAvg}}</td>
+        <td md-cell>{{vm.teamStats.rbis}}</td>
+        <td md-cell>{{vm.teamStats.runs}}</td>
+        <td md-cell>{{vm.teamStats.ks}}</td>
+        <td md-cell></td>
+        <td md-cell></td>
+        <td md-cell></td>
+        <td md-cell></td>
+        <td md-cell></td>
+        <td md-cell></td>
+        <td md-cell></td>
+        <td md-cell></td>
+        <td md-cell></td>
+        <td md-cell></td>
+        <td md-cell></td>
+        <td md-cell></td>
+        <td md-cell></td>
+      </tr>
+      </tfoot>
+  </table>
+</md-table-container>
+</md-content>

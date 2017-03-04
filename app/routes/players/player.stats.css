@@ -1,0 +1,11 @@
+md-dialog {
+    max-height: 90% !important;
+}
+
+.chart-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-width:80%;
+}
+

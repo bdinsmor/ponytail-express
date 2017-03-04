@@ -1,0 +1,81 @@
+md-input-container {
+	margin: 2px 2px;
+}
+
+.header-click {
+	cursor: pointer;
+	box-sizing: border-box;
+  /* Reset default button appearance */
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  outline: none;
+}
+
+md-toolbar {
+	background-color: #1976D2;
+}
+table.md-table th.md-column {
+	color: inherit !important;
+}
+
+not-playing {
+	line-height: 45px;
+}
+
+body {
+	background-color: #eee;
+}
+
+md-select.md-default-theme .md-select-value.md-select-placeholder, md-select .md-select-value.md-select-placeholder {
+	color: inherit !important;
+}
+md-select.md-default-theme .md-select-value, md-select .md-select-value, md-select.md-default-theme .md-select-value:focus, md-select .md-select-value:focus {
+	color: inherit !important;
+}
+ng-md-icon {
+  fill: currentColor;
+  vertical-align: middle;
+  display: inline-block;
+  line-height: 1;
+}
+
+md-toolbar .title {
+	font-family: 'Crafty Girls';
+	font-weight: bold;
+	padding-left: 2%;
+	font-size: 150%;
+	line-height: 64px;
+  	text-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+}
+
+table.md-table td.md-cell {
+	color: inherit;
+	font-weight: bold;
+}
+
+table.md-table td.md-cell.md-numeric, table.md-table th.md-column.md-numeric {
+	text-align: left;
+}
+
+.error-row {
+	font-size: 7pt;
+}
+
+md-select.md-table-select {
+	background-color: inherit !important;
+}
+/*
+.md-select-value {
+	max-width: 30px;
+}
+
+.md-select-value :first-child {
+	min-width: 30px
+}
+*/
+table.md-table td.md-cell md-select>.md-select-value>span.md-select-icon {
+	color: inherit;
+}
+

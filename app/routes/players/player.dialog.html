@@ -1,0 +1,59 @@
+<md-dialog style="height:100%;width:100%">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h3 style="font-family:Roboto,Helvetica Neue,sans-serif">Player Information</h3>
+                <span flex></span>
+                <md-button aria-label="Close" class="md-icon-button" ng-click="cancel()">
+                    <ng-md-icon icon="clear"></ng-md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content md-padding" layout="column">
+                <div layout="row" layout-align="start start">
+                    <md-input-container>
+                        <md-select ng-model="player.year" placeholder="Year">
+                            <md-option value="2016">2016</md-option>
+                            <md-option value="2017">2017</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container>
+                        <md-select ng-model="player.season" placeholder="Season">
+                            <md-option value="Fall">Fall</md-option>
+                            <md-option value="Spring">Spring</md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div flex="5"></div>
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Player Name</label>
+                        <input id="playerName" ng-model="player.name" md-autofocus>
+                    </md-input-container>
+                </div>
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Email Address</label>
+                        <input ng-model="player.email">
+                    </md-input-container>
+                </div>
+                
+                <div layout="column">
+                    <md-datepicker ng-model="player.birthDate" md-placeholder="Enter Birth Date"></md-datepicker>
+                </div>
+                
+
+            </div>
+           
+        </md-dialog-content>
+        
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button aria-label="Cancel" ng-click="cancel()" class="md-warn">
+                Cancel
+            </md-button>
+            <md-button aria-label="Save" class="md-primary md-raised" ng-click="save()" md-autofocus>
+                Save
+            </md-button>
+        </md-dialog-actions>
+</md-dialog>

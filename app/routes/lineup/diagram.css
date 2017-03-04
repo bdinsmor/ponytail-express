@@ -1,0 +1,155 @@
+.kaylee {
+    background-color: #006400;
+    color: #fff;
+}
+
+.karis {
+    background-color: #000;
+    color: #fff;
+}
+
+.leah {
+    background-color: #0d47a1;
+    color: #F0E68C;
+}
+
+.natilee {
+    background-color: #4dff4d;
+    color: black;
+}
+
+.alaina {
+    background-color: yellow;
+    color: black;
+}
+
+.olivia {
+    background-color: #bbdefb;
+    color: black;
+}
+
+.brooke {
+    background-color: #85144b;
+    color: #fff;
+}
+
+.xaelynn,
+.blair {
+    background-color: #FF6EB4;
+    color: black;
+}
+
+.sara {
+    background-color: #4a148c;
+    color: #fff;
+}
+
+.quinn {
+    background-color: #FF4136;
+    color: #fff;
+}
+
+.ashley,
+.leah m {
+    background-color: #FF7F00;
+    color: #fff;
+}
+
+.elsie {
+    background-color: #F0E68C;
+    color: #0d47a1
+}
+
+.ella {
+    background-color: #B228C0;
+    color: #fff
+}
+
+.diagram {
+    float: left;
+    width: 308px;
+    height: 300px;
+    padding-right: 5px;
+}
+
+.diagram {
+    background: rgba(255, 255, 255, 0.75) url(f.jpg) 50% 10px no-repeat
+}
+
+h2 {
+    position: absolute;
+    margin: 165px -40px;
+    width: 390px;
+    text-align: center;
+    font: 36px "arial black"
+}
+
+.diagram .mylabel {
+    font-weight: bold;
+    position: absolute;
+    display: block;
+    padding: 1px 0 1px 2px;
+    width: 100px;
+    font-size: 120%;
+    text-align: center;
+    border-radius: 4px;
+}
+
+.pitcher {
+    margin: 215px 100px
+}
+
+.catcher {
+    margin: 255px 100px
+}
+
+.first {
+    margin: 185px 205px
+}
+
+.second {
+    margin: 145px 175px
+}
+
+.over {
+    margin: 95px 145px
+}
+
+.short {
+    margin: 145px 65px
+}
+
+.leftcenter {
+    margin: 55px 55px
+}
+
+.rightcenter {
+    margin: 55px 160px
+}
+
+.third {
+    margin: 185px 25px
+}
+
+.center {
+    margin: 60px 122px
+}
+
+.right {
+    margin: 105px 190px
+}
+
+.left {
+    margin: 105px 25px
+}
+
+.sittingBox {
+    position: absolute;
+    margin: 230px 235px;
+    padding: 4px;
+    width: 90px;
+    background: #eee;
+    border-radius: 4px;
+    overflow: hidden;
+    z-index: 10
+}

@@ -5,10 +5,12 @@ var connect = require('gulp-connect');
 var ngTemplates = require('gulp-ng-templates');
 var sourcemaps = require('gulp-sourcemaps');
 var headerfooter = require('gulp-headerfooter');
+var angularFilesort = require('gulp-angular-filesort')
+var nodemon = require('gulp-nodemon');
 
 gulp.task('default', [
     'build','deps',
-    'html', 'style','icons', 'templates'
+    'html', 'style','icons', 'images','templates'
     ], function() {
 
     gulp.watch([
@@ -18,7 +20,22 @@ gulp.task('default', [
         './app/**/*.html',
         './views/index.html',
         './lib/*.js'
-    ], ['build', 'html', 'icons','templates', 'deps']);
+    ], ['build', 'html', 'icons','images','templates', 'deps']);
+});
+
+gulp.task('deploy', [
+    'build','deps',
+    'html', 'style','icons', 'images','templates','runApp'
+    ], function() {
+
+    gulp.watch([
+        './app/**/*.js',
+        './app/**/*.svg',
+        './app/**/*.css',
+        './app/**/*.html',
+        './views/index.html',
+        './lib/*.js'
+    ], ['build', 'html', 'icons','images','templates', 'deps', 'runApp']);
 });
 
 
@@ -32,7 +49,12 @@ gulp.task('deps', function() {
         'node_modules/angular-material-data-table/dist/md-data-table.min.js',
         'node_modules/angular-sortable-view/src/angular-sortable-view.min.js',
         'node_modules/angular-material-icons/angular-material-icons.min.js',
-        'node_modules/moment/moment.min.js'
+        'node_modules/moment/moment.js',
+        'node_modules/underscore/underscore-min.js',
+        'node_modules/angular-moment/angular-moment.min.js',
+        'node_modules/satellizer/dist/satellizer.min.js',
+        'node_modules/chart.js/dist/Chart.min.js',
+        'node_modules/angular-chart.js/dist/angular-chart.min.js'
     ])
     .pipe(sourcemaps.init())
     .pipe(concat('dependencies.js'))
@@ -44,17 +66,17 @@ gulp.task('build', function() {
     return gulp.src([
         './app/**/*.js'
     ])
+    .pipe(angularFilesort())
     .pipe(sourcemaps.init())
     .pipe(concat('bundle.js'))
-    //.pipe(headerfooter.header("(function() {\n"))
-    //.pipe(headerfooter.footer("}());\n"))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('./dist/'));
 });
 
 gulp.task('html', function() {
     return gulp.src([
-        './views/index.html'
+        './views/index.html',
+        './views/google2e73ff4262ee056a.html'
     ])
     .pipe(gulp.dest('./dist/'));
 });
@@ -66,14 +88,27 @@ gulp.task('icons', function() {
     .pipe(gulp.dest('./dist/icons/'));
 });
 
+gulp.task('images', function() {
+    return gulp.src([
+        './img/*.jpg',
+        './img/*.svg'
+    ])
+    .pipe(gulp.dest('./dist/img/'));
+});
+
+
+
 gulp.task('style', function() {
     return gulp.src([
         'node_modules/angular-material/angular-material.min.css',
         'node_modules/angular-material-data-table/dist/md-data-table.min.css',
-        './app/routes/home/home.css',
-        './app/routes/home/diagram.css',
-        './app/routes/home/print.css',
-        './app/routes/home/f.jpg'
+        './app/routes/login/login.css',
+        './app/routes/lineups/lineups.css',
+        './app/routes/lineup/lineup.css',
+        './app/routes/lineup/diagram.css',
+        './app/routes/lineup/print.css',
+        './app/routes/lineup/f.jpg',
+        './app/routes/players/player.stats.css'
 
     ])
     .pipe(gulp.dest('./dist/'));
@@ -98,4 +133,12 @@ gulp.task('templates', function () {
         }
     }))
     .pipe(gulp.dest('./dist/'));
+});
+
+gulp.task('runApp', function() {
+    nodemon({
+        script: 'app.js',
+        ext: 'js html',
+        env: { 'NODE_ENV': 'development' }
+    });
 });

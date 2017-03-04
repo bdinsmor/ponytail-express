@@ -1,0 +1,8 @@
+<md-list>
+	<md-list-item class="lineup-row" ng-repeat="lineup in vm.lineups track by lineup.id">
+		<div flex><span flex="15">{{lineup.date}}</span></div>
+		<md-button ng-click="vm.viewLineup(lineup)" class="md-secondary" aria-label="View Lineup"><md-tooltip>View Lineup</md-tooltip><ng-md-icon icon="launch"></ng-md-icon></md-button>
+		<md-divider></md-divider>
+	</md-list-item>
+	
+</md-list>

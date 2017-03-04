@@ -1,0 +1,16 @@
+.login {
+	background: no-repeat url('/img/softball.jpg');
+	background-size: cover;
+}
+
+.banner-card {
+	background-color: rgb(63,81,181);
+}
+
+.banner {
+	font-family: 'Permanent Marker', cursive;
+	font-weight: bold;
+	font-size:54px;
+	color: #fff;
+  	text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+}

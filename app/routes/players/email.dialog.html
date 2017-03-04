@@ -1,0 +1,55 @@
+<md-dialog style="height:100%;width:100%">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h3 style="font-family:Roboto,Helvetica Neue,sans-serif">Email {{player.name}}</h3>
+            <span flex></span>
+            <md-button aria-label="Close" class="md-icon-button" ng-click="cancel()">
+                <ng-md-icon icon="clear"></ng-md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content md-padding" layout="column">
+
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Email Address</label>
+                    <input ng-model="email.to" type="email">
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>BCC</label>
+                    <input ng-model="email.bcc" type="text">
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Subject</label>
+                    <input ng-model="email.subject">
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row" style="width:100%">
+                <md-input-container class="md-block" style="width:100%">
+                    <label>Email Text</label>
+                    <textarea ng-model="email.body" md-maxlength="5000" rows="12" md-select-on-focus></textarea>
+                </md-input-container>
+            </div>
+
+
+
+
+        </div>
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+        <span flex></span>
+        <md-button aria-label="Cancel" ng-click="cancel()" class="md-warn">
+            Cancel
+        </md-button>
+        <md-button aria-label="Save" class="md-primary md-raised" ng-click="save()" md-autofocus>
+            Save & Send
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

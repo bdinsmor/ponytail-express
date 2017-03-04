@@ -1,0 +1,70 @@
+<div class="md-padding" flex layout="row" layout-align="center start">
+<md-card class="md-padding" flex="80" layout-fill>
+	<md-toolbar class="md-padding" style="background-color: #eee;color:rgba(0,0,0,0.87)">Player Information</md-toolbar>
+	<form flex class="md-padding" name="playerForm">
+    <div layout="row" layout-align="start start">
+            <md-input-container>
+                <md-select ng-model="$ctrl.year" placeholder="Year">
+                    <md-option ng-value="2016">2016</md-option>
+                    <md-option ng-value="2017">2017</md-option>
+                </md-select>
+            </md-input-container>
+            <md-input-container>
+                <md-select ng-model="$ctrl.season" placeholder="Season">
+                    <md-option ng-value="Fall">Fall</md-option>
+                    <md-option ng-value="Spring">Spring</md-option>
+                </md-select>
+            </md-input-container>
+         </div>
+		<div layout-gt-sm="row">
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>Player Name</label>
+            <input ng-model="$ctrl.player.name" name="name" required>
+            <div ng-messages="playerForm.name.$error" role="alert" ng-show="playerForm.name.$dirty">
+              <div ng-message="required" class="my-message">Please enter player name</div>
+            </div>
+          </md-input-container>
+        </div>
+        <div layout="column" flex>
+          <md-subheader>Birth Date</md-subheader>
+          <md-datepicker ng-model="$ctrl.player.birthDate" md-placeholder="Enter Birth Date"></md-datepicker>
+         </div>
+        <div layout-gt-sm="row">
+        	<md-subheader class="md-no-sticky">Bats</md-subheader>
+        </div>
+        <div layout-gt-sm="row" layout-align="start start">
+            <md-switch ng-model="$ctrl.players.bats" aria-label="Switch 1" style="display:inline-flex">Left</md-switch>
+         </div>
+         <div layout-gt-sm="row" layout-align="start start">
+	          <div flex="10" layout layout-align="center center">
+			      <span class="md-body-1">Rating</span>
+			   </div>
+			   <md-slider flex class="md-primary" md-discrete ng-model="$ctrl.player.battingRating" step="1" min="1" max="5" aria-label="rating">
+			   </md-slider>
+		   </div>
+        <div layout-gt-sm="row">
+        	<md-subheader class="md-no-sticky">Throws</md-subheader>
+        </div>
+        <div layout-gt-sm="row"  layout-align="start start">
+            <md-switch ng-model="$ctrl.players.throws" aria-label="Switch 1">Left</md-switch>
+          </div>
+          <div layout-gt-sm="row">
+          <div flex="10" layout layout-align="center center">
+		      <span class="md-body-1">Rating</span>
+		   </div>
+		   <md-slider flex class="md-primary" md-discrete ng-model="$ctrl.player.throwsRating" step="1" min="1" max="5" aria-label="rating">
+		   </md-slider>
+		   </div>
+        <div layout-gt-cm="row">
+        	<md-subheader class="md-no-sticky">Catching</md-subheader>
+        </div>
+        <div layout-gt-sm="row">
+          <div flex="10" layout layout-align="center center">
+		      <span class="md-body-1">Rating</span>
+		   </div>
+		   <md-slider flex class="md-primary" md-discrete ng-model="$ctrl.player.catchingRating" step="1" min="1" max="5" aria-label="rating">
+		   </md-slider>
+        </div>
+	</form>
+</md-card>
+</div>

@@ -1,0 +1,86 @@
+<md-toolbar class="no-print md-padding md-whiteframe-1dp" layout="row" style="background-color: #1976D2" layout-align="start center">
+	<md-button style="color:#fff" ng-click="$ctrl.refresh()" class="title">Ponytail Express</md-button>
+	<span flex></span>
+	<md-button style="color:#fff" ng-click="$ctrl.emailTeam($event)">
+		<ng-md-icon icon="send" style="fill:#fff"></ng-md-icon>&nbsp;Email Team</md-button>
+</md-toolbar>
+<div flex>
+	<md-content flex class="md-padding">
+		<md-subheader class="md-no-sticky">
+			<div layout="row" layout-align="start start">
+				<md-input-container>
+					<md-select ng-model="$ctrl.year" placeholder="Year">
+						<md-option value="2016">2016</md-option>
+						<md-option value="2017">2017</md-option>
+					</md-select>
+				</md-input-container>
+				<md-input-container>
+					<md-select ng-model="$ctrl.season" placeholder="Season">
+						<md-option value="Fall">Fall</md-option>
+						<md-option value="Spring">Spring</md-option>
+					</md-select>
+				</md-input-container>
+				<md-button ng-click="$ctrl.applyFilters()" class="md-primary">Apply</md-button>
+			</div>
+		</md-subheader>
+		<md-card style="overflow:auto;height:85%">
+			<div class="md-padding" ng-hide="$ctrl.players && $ctrl.players.length > 0" style="color:rgba(0,0,0,0.76)">No players found for {{$ctrl.year}}&nbsp;{{$ctrl.season}}</div>
+
+			<md-table-container ng-cloak ng-show="$ctrl.players && $ctrl.players.length > 0" class="no-print">
+				<table md-table>
+					<thead md-head md-order="$ctrl.rosterOrder">
+						<tr md-row flex>
+							<th md-column></th>
+							<th md-column md-order-by="name"><span>Player</span></th>
+							<th md-column flex="15" md-order-by="email"><span>Email</span></th>
+							<th md-column md-order-by="birthDate"><span>DOB</span></th>
+							<th md-column md-order-by="age"><span>Age</span></th>
+							<th md-column md-order-by="daysUntilBday"><span>BDay</span></th>
+							<th md-column></th>
+						</tr>
+					</thead>
+					<tbody md-body>
+						<tr class="{{player.name.toLowerCase()}}" md-row flex ng-repeat="(playerIndex,player) in $ctrl.players | orderBy: $ctrl.rosterOrder">
+							<td md-cell>{{playerIndex+1}}</td>
+							<td md-cell>{{player.name}}</td>
+							<td md-cell flex="15">{{player.email}}</td>
+							<td md-cell>{{player.birthDate | date: 'MMM dd yyyy'}}</td>
+							<td md-cell md-numeric>{{player.age}}</td>
+							<td md-cell md-numeric>{{player.daysUntilBday}}</td>
+							<td md-cell>
+								<md-button aria-label="View Player Stats" class="md-icon-button" ng-click="$ctrl.viewStats(player, $event)">
+									<ng-md-icon icon="chart_pie"></ng-md-icon>
+								</md-button>
+								<md-button class="md-icon-button" ng-click="$ctrl.editPlayer(player,$event)" aria-label="Edit">
+									<ng-md-icon icon="edit"></ng-md-icon>
+								</md-button>
+								<md-button aria-label="email player" ng-click="$ctrl.emailPlayer(player, $event)" class="md-icon-button">
+									<ng-md-icon icon="email"></ng-md-icon>
+								</md-button>
+								<md-button ng-click="$ctrl.deletePlayer(player)" class="md-icon-button" aria-label="Delete">
+									<ng-md-icon icon="delete"></ng-md-icon>
+								</md-button>
+							</td>
+						</tr>
+					</tbody>
+					<tfoot md-foot class="no-print">
+						<tr md-row>
+							<td md-cell></td>
+							<td md-cell></td>
+							<td md-cell></td>
+							<td md-cell><strong>Avg Age:</strong></td>
+							<td md-cell>{{$ctrl.averageAge}}</td>
+							<td md-cell></td>
+						</tr>
+
+					</tfoot>
+				</table>
+			</md-table-container>
+		</md-card>
+		<div class="no-print" style="position:fixed;z-index:55;bottom:15px;right:15px">
+			<md-button ng-click="$ctrl.addPlayer($event)" aria-label="menu" class="md-fab" style="background-color:#1976D2">
+				<ng-md-icon icon="add" style="fill:#fff;color:#fff"></ng-md-icon>
+			</md-button>
+		</div>
+	</md-content>
+</div>

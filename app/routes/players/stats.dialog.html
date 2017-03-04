@@ -1,0 +1,39 @@
+<md-dialog style="height:90vh;width:100%">
+	<md-toolbar>
+		<div class="md-toolbar-tools">
+			<h3 style="font-family:Roboto,Helvetica Neue,sans-serif">Player Stats</h3>
+			<span flex></span>
+			<md-button aria-label="Close" class="md-icon-button" ng-click="cancel()">
+				<ng-md-icon icon="clear"></ng-md-icon>
+			</md-button>
+		</div>
+	</md-toolbar>
+	<md-dialog-content style="height:100%;width:100%">
+		<div layout="row">
+			<div flex="50">
+				<md-subheader style="background-color:inherit" layout="row" layout-align="center center"># Pitches Per AB</md-subheader>
+				<canvas class="chart chart-doughnut" chart-data="player.stats.pitches.data" chart-options="chartOptions" chart-labels="player.stats.pitches.labels">
+				</canvas>
+			</div>
+			<div flex="50">
+				<md-subheader style="background-color:inherit" layout="row" layout-align="center center">In Play Locations</md-subheader>
+				<canvas class="chart chart-doughnut" chart-data="player.stats.inplay.data" chart-options="chartOptions" chart-labels="player.stats.inplay.labels">
+				</canvas>
+			</div>
+		</div>
+        <div layout="row">
+			<div flex="50">
+				<md-subheader style="background-color:inherit" layout="row" layout-align="center center">Out Locations</md-subheader>
+				<canvas class="chart chart-doughnut" chart-data="player.stats.outs.data" chart-options="chartOptions" chart-labels="player.stats.outs.labels">
+				</canvas>
+			</div>
+			<div flex="50">
+				<md-subheader style="background-color:inherit" layout="row" layout-align="center center">Hit Locations</md-subheader>
+				<canvas class="chart chart-doughnut" chart-data="player.stats.hits.data" chart-options="chartOptions" chart-labels="player.stats.hits.labels">
+				</canvas>
+			</div>
+		</div>
+
+	</md-dialog-content>
+
+</md-dialog>

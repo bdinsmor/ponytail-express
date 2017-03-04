@@ -1,0 +1,74 @@
+<md-toolbar class="no-print md-padding md-whiteframe-1dp" layout="row" style="background-color: #1976D2" layout-align="start center">
+  <md-button style="color:#fff" ng-click="vm.refresh()" class="title">Ponytail Express</md-button>
+  <span flex></span>
+  <md-button aria-label="Show Stats" class="md-raised" ng-click="vm.viewStats($event)">
+    <md-tooltip>View Stats</md-tooltip>
+    <ng-md-icon icon="equalizer" style="fill:#1976D2"></ng-md-icon>&nbsp;Stats</md-button>
+  <!--<span ng-if="vm.profilePic && vm.displayName">
+  <img ng-src="{{vm.profilePic}}" md-whiteframe="4" height="48" width="48" />
+
+  <span style="#fff">&nbsp;&nbsp;{{vm.displayName}}</span>
+  </span>-->
+</md-toolbar>
+<div class="no-print" style="position:fixed;z-index:55;bottom:15px;left:15px">
+  <md-fab-speed-dial ng-if="vm.showFAB" md-open="vm.isOpen" md-direction="{{vm.selectedDirection}}" ng-class="vm.selectedMode">
+    <md-fab-trigger>
+      <md-button aria-label="menu" class="md-fab" style="background-color:#1976D2">
+        <ng-md-icon icon="edit" style="fill:#fff;color:#fff"></ng-md-icon>
+      </md-button>
+    </md-fab-trigger>
+    <md-fab-actions>
+      <md-button ng-click="vm.addLineup()" aria-label="Add Lineup" style="background-color:#1976D2" class="md-fab md-raised md-mini">
+        <md-tooltip md-direction="right">Add Lineup</md-tooltip>
+        <ng-md-icon style="fill:#fff" icon="event" aria-label="Add Lineup"></ng-md-icon>
+      </md-button>
+      <md-button ng-click="vm.editRoster()" aria-label="Add Player" style="background-color:#1976D2" class="md-fab md-raised md-mini">
+        <md-tooltip md-direction="right">Edit Roster</md-tooltip>
+        <ng-md-icon style="fill:#fff" icon="person" aria-label="Add Player"></ng-md-icon>
+      </md-button>
+    </md-fab-actions>
+  </md-fab-speed-dial>
+</div>
+
+
+<div ng-if="!vm.showStats && vm.showList" class="md-padding" style="height:100%">
+  <div ng-if="!vm.lineupsByDate || vm.lineupsByDate.length == 0" layout="row" layout-align="center center">
+    <md-subheader class="lineup-header">No saved lineups!</md-subheader>
+    <md-subheader class="lineup-header">Click the + button to create a lineup.</md-subheader>
+  </div>
+  <md-content flex ng-if="vm.lineupsByDate && vm.lineupsByDate.length > 0" style="background-color:#eee;height:100%">
+    <section ng-repeat="group in vm.lineupsByDate" layout="column" flex>
+      <md-subheader class="lineup-header">{{group.month}}</md-subheader>
+      <md-list class="md-padding">
+        <md-list-item class="lineup-row box" ng-click="vm.viewLineup(lineup._id)" md-ink-ripple ng-repeat="lineup in group.lineups track by lineup._id">
+          <md-button aria-label="View Lineup" ng-click="vm.viewLineup(lineup._id)">
+            <md-tooltip>Open this lineup"</md-tooltip>
+            {{lineup.date | date: "yyyy-MM-dd"}}
+          </md-button>
+          <md-button style="text-align:left" aria-label="View Lineup" ng-click="vm.viewLineup(lineup._id)">
+            <md-tooltip>Open this lineup"</md-tooltip>
+            {{lineup.title}}
+          </md-button>
+          <div flex="5" ng-if="lineup.game.result" ng-class="{'result-tie': lineup.game.result == 'T', 'result-win': lineup.game.result == 'W', 'result-loss': lineup.game.result == 'L'}">
+            {{lineup.game.result}}
+          </div>
+          <div ng-if="lineup.game" class="lineup-row-details" ng-click="vm.viewLineup(lineup._id)">
+            Ponytail Express:&nbsp;{{lineup.game.ponytailScore}}&nbsp;&nbsp;{{lineup.opponentName}}:&nbsp;{{lineup.game.opponentScore}}
+          </div>
+          <md-button class="md-secondary" ng-if="lineup.confirmed" style="text-align:left;color:#1976D2;font-size:70%" aria-label="View Lineup">
+            <md-tooltip>Open this lineup"</md-tooltip>
+            <ng-md-icon icon="done" style="fill:#1976D2"></ng-md-icon>&nbsp;Final
+          </md-button>
+          <md-button class="md-secondary" ng-click="vm.deleteLineup($event,lineup._id)" aria-label="Delete Lineup">
+            <md-tooltip>Delete this lineup"</md-tooltip>
+            <ng-md-icon icon="clear" style="fill:red"></ng-md-icon>
+          </md-button>
+        </md-list-item>
+      </md-list>
+    </section>
+  </md-content>
+</div>
+<lineup ng-if="!vm.showList && !vm.showStats" selected-id="vm.selectedId"></lineup>
+<div ng-if="vm.showStats">
+  <stats></stats>
+</div>

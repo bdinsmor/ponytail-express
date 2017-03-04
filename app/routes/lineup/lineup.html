@@ -1,0 +1,407 @@
+<md-content class="md-padding" flex style="height: 100%">
+
+	<div ng-if="$ctrl.loading" flex layout-fill layout="column" layout-align="start center">
+		<h4 style="color:rgba(0,0,0,0.8)">Loading...</h4>
+		<div layout="row" layout-sm="column" layout-align="space-around">
+			<md-progress-circular></md-progress-circular>
+		</div>
+	</div>
+	<div class="md-padding" ng-if="!$ctrl.loading" flex>
+		<div class="no-print" layout="row" layout-align="start start">
+			<md-input-container>
+				<md-select ng-model="$ctrl.year" placeholder="Year">
+					<md-option value="2016">2016</md-option>
+					<md-option value="2017">2017</md-option>
+				</md-select>
+			</md-input-container>
+			<md-input-container>
+				<md-select ng-model="$ctrl.season" placeholder="Season">
+					<md-option value="Fall">Fall</md-option>
+					<md-option value="Spring">Spring</md-option>
+				</md-select>
+			</md-input-container>
+			<md-datepicker ng-model="$ctrl.lineupDate" md-placeholder="Enter lineup date"></md-datepicker>
+		</div>
+		<br class="no-print" />
+		<div class="no-print" layout="row" layout-align="start start">
+			<md-input-container flex="50">
+				<label>Opponent Name</label>
+				<input md-maxlength="30" md-no-asterisk name="name" ng-model="$ctrl.opponentName">
+			</md-input-container>
+			<span show-gt-sm flex="5"></span>
+			<md-input-container flex>
+				<label>Lineup Title</label>
+				<input md-maxlength="30" md-no-asterisk name="title" ng-model="$ctrl.lineupTitle">
+			</md-input-container>
+
+
+		</div>
+
+		<div ng-hide="$ctrl.showMobile" class="no-print md-padding" layout="row" layout-align="start start">
+			<md-button class="md-primary md-icon-button" aria-label="Show Fielding Diagram" ng-click="$ctrl.toggleDiagram()">
+				<md-tooltip>Toggle Between List and Field Diagram</md-tooltip>
+				<ng-md-icon style="fill:#1976D2" icon="{{$ctrl.iconSrc}}"></ng-md-icon>
+			</md-button>
+			<md-button class="md-primary md-icon-button" aria-label="Save" ng-click="$ctrl.save()">
+				<md-tooltip>Save Lineup</md-tooltip>
+				<ng-md-icon icon="save"></ng-md-icon>
+			</md-button>
+			<md-button class="md-primary md-icon-button" aria-label="Save Copy" ng-click="$ctrl.saveCopy()">
+				<md-tooltip>Save A Copy of this Lineup</md-tooltip>
+				<ng-md-icon icon="content_copy"></ng-md-icon>
+			</md-button>
+			<md-button class="md-primary md-icon-button" aria-label="Toggle Scoring" ng-click="$ctrl.showScoring = !$ctrl.showScoring;">
+				<md-tooltip>Toggle Scoring</md-tooltip>
+				<ng-md-icon icon="edit"></ng-md-icon>
+			</md-button>
+			<span flex></span>
+			<md-button class="md-primary md-icon-button" aria-label="Mobile Version" ng-click="$ctrl.showMobile = !$ctrl.showMobile;">
+				<md-tooltip>Mobile Version</md-tooltip>
+				<ng-md-icon icon="stay_current_portrait"></ng-md-icon>
+			</md-button>
+			<md-button class="md-warn md-icon-button" aria-label="Delete" ng-click="$ctrl.deleteLineup($event)">
+				<md-tooltip>Delete this Lineup</md-tooltip>
+				<ng-md-icon style="fill:rgb(245,0,0)" icon="delete_forever"></ng-md-icon>
+			</md-button>
+
+
+		</div>
+		<div ng-if="$ctrl.showScoring" layout="column" style="width: 100%" layout-align="start center">
+			<div style="width:100%" layout="row">
+
+
+				<span flex></span>
+				<span style="color:rgba(0,0,0,0.67)">Game Final:&nbsp;</span>
+				<md-switch ng-model="$ctrl.lineupConfirmed" aria-label="Lineup Final"></md-switch>
+
+			</div>
+			<div class="md-padding" style="width: 100%">
+				<md-table-container class="no-print">
+					<table md-table>
+						<thead md-head>
+							<tr md-row flex>
+								<th md-column><span>Team</span></th>
+								<th md-column><span>1st</span></th>
+								<th md-column><span>2nd</span></th>
+								<th md-column><span>3rd</span></th>
+								<th md-column><span>4th</span></th>
+								<th md-column><span>5th</span></th>
+								<th md-column><span>6th</span></th>
+								<th md-column><span>Total</span></th>
+							</tr>
+						</thead>
+						<tbody md-body>
+							<tr md-row flex ng-repeat="team in $ctrl.game.teams">
+								<td md-cell>{{team.name}}</td>
+								<td md-cell ng-repeat="inning in team.innings">
+									<md-input-container md-no-float>
+										<input ng-change="$ctrl.recalculateScore()" ng-model="inning.score" placeholder="inning.label">
+									</md-input-container>
+								</td>
+								<td md-cell md-numeric>{{team.score}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</md-table-container>
+			</div>
+		</div>
+
+
+		<div class="md-padding" ng-if="!$ctrl.showMobile && $ctrl.showScoring && !$ctrl.showDiagram" flex>
+			<md-card class="{{player.name.toLowerCase()}}" ng-repeat="(playerIndex,player) in $ctrl.playersPlaying">
+				<md-card-title class="header-click" ng-click="$ctrl.togglePlayerScoring(player)">
+					<md-card-title-text layout="row">
+						<span class="md-subhead">{{player.name}}</span>
+						<span flex></span>
+						<span><ng-md-icon size="36" icon="{{player.scoringIcon}}"></ng-md-icon></span>
+						<!-- when collapsed, show total stats from game (i.e. # hits, # rbis, etc) -->
+					</md-card-title-text>
+				</md-card-title>
+				<md-card-content ng-show="player.showScoring" layout="row" layout-align="space-between">
+					<md-table-container flex class="print-landscape">
+						<table flex md-table>
+							<thead md-head>
+								<tr class="{{player.name.toLowerCase()}}" md-row flex>
+									<th md-column><span>&nbsp;</span></th>
+									<th md-column><span>Inning</span></th>
+									<th md-column><span>Batted</span></th>
+									<th md-column><span># Pitches</span></th>
+									<th md-column><span>Put in Play</span></th>
+									<th md-column><span>Strikeout</span></th>
+									<th md-column><span>Hit Type</span></th>
+									<th md-column><span>Hit Location</span></th>
+									<th md-column><span>RBIs</span></th>
+									<th md-column><span>Total Bases</span></th>
+									<th md-column><span>Scored</span></th>
+								</tr>
+							</thead>
+							<tbody md-body>
+								<tr class="{{player.name.toLowerCase()}}" md-row flex ng-repeat="inning in player.innings track by $index">
+									<td md-cell>
+										<md-button class="md-icon-button" aria-label="Reset" ng-click="$ctrl.resetInning(inning)">
+											<ng-md-icon icon="undo"></ng-md-icon>
+										</md-button>
+									</td>
+									<td md-cell>
+										{{inning.inning}}
+									</td>
+
+									<td md-cell>
+										<md-switch aria-label="Batted" ng-model="inning.batted" ng-change="$ctrl.inningBattedChanged(inning)"></md-switch>
+									</td>
+									<td md-cell>
+										<md-select ng-disabled="!inning.batted" ng-model="inning.pitches" placeholder="# Pitches">
+											<md-option value="0">0</md-option>
+											<md-option value="1">1</md-option>
+											<md-option value="2">2</md-option>
+											<md-option value="3">3</md-option>
+											<md-option value="4">4</md-option>
+											<md-option value="5">5</md-option>
+										</md-select>
+									</td>
+									<td md-cell>
+										<md-switch ng-disabled="!inning.batted" aria-label="Put in Play" ng-model="inning.inplay"></md-switch>
+									</td>
+									<td md-cell>
+										<md-switch ng-disabled="!inning.batted || inning.inplay || inning.pitches != '5'" aria-label="Strikeout" ng-model="inning.struckout"></md-switch>
+									</td>
+									<td md-cell>
+										<md-select ng-disabled="!inning.batted" ng-model="inning.hittype" placeholder="Hit Type">
+											<md-option value="OUT">OUT</md-option>
+											<md-option value="1B">1B</md-option>
+											<md-option value="2B">2B</md-option>
+											<md-option value="3B">3B</md-option>
+											<md-option value="HR">HR</md-option>
+										</md-select>
+									</td>
+
+									<td md-cell>
+										<md-select ng-disabled="!inning.batted || !inning.inplay || inning.struckout" ng-model="inning.hitlocation" placeholder="Hit Location">
+											<md-option ng-value="choice.number" ng-repeat="choice in $ctrl.positionChoices">
+												{{choice.abbr}}
+											</md-option>
+										</md-select>
+									</td>
+									<td md-cell>
+										<md-select ng-disabled="!inning.batted || !inning.inplay" ng-model="inning.rbis" placeholder="# RBIs">
+											<md-option ng-value="choice.number" ng-repeat="choice in $ctrl.numberChoices">
+												{{choice.number}}
+											</md-option>
+										</md-select>
+									</td>
+									<td md-cell>
+										<md-select ng-disabled="!inning.batted || inning.hittype == 'OUT'" ng-model="inning.totalbases" placeholder="# Bases">
+											<md-option value="0">0</md-option>
+											<md-option value="1">1</md-option>
+											<md-option value="2">2</md-option>
+											<md-option value="3">3</md-option>
+											<md-option value="4">4</md-option>
+										</md-select>
+									</td>
+									<td md-cell>
+										<md-switch ng-disabled="!inning.batted || inning.totalbases != 4" aria-label="Scored" ng-model="inning.scored"></md-switch>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</md-table-container>
+				</md-card-content>
+			</md-card>
+
+		</div>
+		<div ng-if="$ctrl.showMobile">
+			<div layout="row" layout-align="end center">
+				<md-button class="md-primary md-icon-button" aria-label="Mobile Version" ng-click="$ctrl.showMobile = !$ctrl.showMobile;">
+					<md-tooltip>Mobile Version</md-tooltip>
+					<ng-md-icon icon="stay_current_portrait"></ng-md-icon>
+				</md-button>
+			</div>
+			<md-table-container flex>
+				<table flex md-table>
+					<thead md-head>
+						<tr md-row flex>
+							<th md-column><span>#</span></th>
+							<th md-column><span>Player</span></th>
+							<th md-column><span>1st Inning</span></th>
+							<th md-column><span>2nd Inning</span></th>
+							<th md-column><span>3rd Inning</span></th>
+							<th md-column><span>4th Inning</span></th>
+							<th md-column><span>5th Inning</span></th>
+							<th md-column><span>6th Inning</span></th>
+						</tr>
+					</thead>
+					<tbody md-body>
+						<tr class="{{player.name.toLowerCase()}}" md-row flex ng-repeat="(playerIndex,player) in $ctrl.playersPlaying">
+							<td md-cell md-numeric>{{playerIndex+1}}</td>
+							<td md-cell>{{player.name}}</td>
+							<td md-cell ng-repeat="(pIndex, inning) in player.innings">{{$ctrl.getPositionDisplay(inning.position)}}</td>
+						</tr>
+					</tbody>
+
+				</table>
+			</md-table-container>
+
+		</div>
+		<div ng-if="!$ctrl.showMobile && !$ctrl.showScoring && !$ctrl.showDiagram" flex>
+			<md-table-container flex class="print-landscape" style="height:100%;width:100%">
+				<table flex md-table>
+					<thead md-head>
+						<tr md-row flex>
+							<th md-column><span>#</span></th>
+							<th md-column class="no-print"></th>
+							<th md-column><span>Player</span></th>
+							<!--<th md-column ng-show="$ctrl.showHittingStats" class="no-print"><span># ABs</span></th>
+                            <th md-column ng-show="$ctrl.showHittingStats" class="no-print"><span># Hits</span></th>
+                            <th md-column ng-show="$ctrl.showHittingStats" class="no-print"><span># Runs</span></th>
+                            <th md-column ng-show="$ctrl.showHittingStats" class="no-print"><span># RBIs</span></th>
+                            <th md-column ng-show="$ctrl.showHittingStats" class="no-print"><span># Ks</span></th>-->
+							<th md-column><span>1st Inning</span></th>
+							<th md-column><span>2nd Inning</span></th>
+							<th md-column><span>3rd Inning</span></th>
+							<th md-column><span>4th Inning</span></th>
+							<th md-column><span>5th Inning</span></th>
+							<th md-column><span>6th Inning</span></th>
+							<th md-column class="no-print"><span>Fulfills Outfield Req</span></th>
+							<th md-column class="no-print"><span># Outfield Innings</span></th>
+							<th md-column class="no-print"><span># Bench Innings</span></th>
+							<th md-column class="no-print"><span>Restricted Positions</span></th>
+							<th md-column><span></span></th>
+
+
+						</tr>
+					</thead>
+					<tbody md-body style="width:100%">
+						<tr class="{{player.name.toLowerCase()}}" md-row flex ng-repeat="(playerIndex,player) in $ctrl.playersPlaying">
+							<td md-cell md-numeric>{{playerIndex+1}}</td>
+							<td md-cell class="no-print" layout="row">
+								<md-button aria-label="Move Up" ng-disabled="$first" class="no-print md-icon-button" ng-click="$ctrl.moveUp(playerIndex, player)">
+									<ng-md-icon icon="keyboard_arrow_up"></ng-md-icon>
+								</md-button>
+								<md-button aria-label="Move Down" ng-disabled="$last" class="no-print md-icon-button" ng-click="$ctrl.moveDown(playerIndex, player)">
+									<ng-md-icon icon="keyboard_arrow_down"></ng-md-icon>
+								</md-button>
+							</td>
+							<td md-cell>{{player.name}}</td>
+							<!--<td md-cell flex="5" class="no-print" ng-show="$ctrl.showHittingStats" md-numeric>
+                                <md-select ng-model="player.abs" placeholder="# ABs">
+                                    <md-option ng-value="choice.number" ng-repeat="choice in $ctrl.numberChoices">
+                                        {{choice.number}}
+                                    </md-option>
+                                </md-select>
+                            </td>
+                            <td md-cell flex="5" class="no-print" ng-show="$ctrl.showHittingStats" md-numeric>
+                                <md-select ng-model="player.hits" placeholder="# Hits">
+                                    <md-option ng-value="choice.number" ng-repeat="choice in $ctrl.numberChoices">
+                                        {{choice.number}}
+                                    </md-option>
+                                </md-select>
+                            </td>
+                            <td md-cell flex="5" class="no-print" ng-show="$ctrl.showHittingStats" md-numeric>
+                                <md-select ng-model="player.runs" placeholder="# Runs">
+                                    <md-option ng-value="choice.number" ng-repeat="choice in $ctrl.numberChoices">
+                                        {{choice.number}}
+                                    </md-option>
+                                </md-select>
+                            </td>
+                            <td md-cell flex="5" class="no-print" ng-show="$ctrl.showHittingStats" md-numeric>
+                                <md-select ng-model="player.rbis" placeholder="# RBIs">
+                                    <md-option ng-value="choice.number" ng-repeat="choice in $ctrl.numberChoices">
+                                        {{choice.number}}
+                                    </md-option>
+                                </md-select>
+                            </td>
+                            <td md-cell flex="5" class="no-print" ng-show="$ctrl.showHittingStats" md-numeric>
+                                <md-select ng-model="player.ks" placeholder="# Ks">
+                                    <md-option ng-value="choice.number" ng-repeat="choice in $ctrl.numberChoices">
+                                        {{choice.number}}
+                                    </md-option>
+                                </md-select>
+                            </td>-->
+							<td md-cell ng-repeat="(pIndex, inning) in player.innings">
+								<md-select ng-model="inning.position" placeholder="Position">
+									<md-option ng-value="choice.number" ng-repeat="choice in $ctrl.positionChoices">
+										{{choice.abbr}}
+									</md-option>
+								</md-select>
+							</td>
+
+							<td md-cell class="no-print">{{$ctrl.isOutfieldMet(player)}}</td>
+							<td md-cell class="no-print">{{$ctrl.getNumOutfieldInnings(player)}}</td>
+							<td md-cell class="no-print">{{$ctrl.getNumBenchInnings(player)}}</td>
+							<td md-cell class="no-print">{{$ctrl.getRestrictedPositions(player)}}</td>
+							<td md-cell class="no-print">
+								<md-button aria-label="Remove {{player.name}} from lineup" ng-click="$ctrl.removePlayer(player,$index)">
+									<md-tooltip>Remove {{player.name}} from lineup</md-tooltip>
+									<ng-md-icon icon="clear"></ng-md-icon>
+								</md-button>
+							</td>
+						</tr>
+					</tbody>
+					<tfoot md-foot class="no-print">
+						<tr md-row>
+							<td md-cell></td>
+							<td md-cell></td>
+							<td md-cell><strong>Need:</strong></td>
+							<td md-cell>{{$ctrl.validateInning(1)}}</td>
+							<td md-cell>{{$ctrl.validateInning(2)}}</td>
+							<td md-cell>{{$ctrl.validateInning(3)}}</td>
+							<td md-cell>{{$ctrl.validateInning(4)}}</td>
+							<td md-cell>{{$ctrl.validateInning(5)}}</td>
+							<td md-cell>{{$ctrl.validateInning(6)}}</td>
+							<td md-cell></td>
+							<td md-cell></td>
+							<td md-cell></td>
+						</tr>
+						<tr md-row>
+							<td md-cell></td>
+							<td md-cell></td>
+							<td md-cell><strong>Too Many:</strong></td>
+							<td md-cell>{{$ctrl.getPlayersForInningCheck(1)}}</td>
+							<td md-cell>{{$ctrl.getPlayersForInningCheck(2)}}</td>
+							<td md-cell>{{$ctrl.getPlayersForInningCheck(3)}}</td>
+							<td md-cell>{{$ctrl.getPlayersForInningCheck(4)}}</td>
+							<td md-cell>{{$ctrl.getPlayersForInningCheck(5)}}</td>
+							<td md-cell>{{$ctrl.getPlayersForInningCheck(6)}}</td>
+							<td md-cell></td>
+							<td md-cell></td>
+							<td md-cell></td>
+
+						</tr>
+					</tfoot>
+				</table>
+			</md-table-container>
+			<div class="no-print md-padding" ng-if="$ctrl.playersNotComing && $ctrl.playersNotComing.length > 0">
+				<md-subheader class="md-no-sticky">Players Not Coming</md-subheader>
+				<md-list flex="50">
+					<md-list-item class="md-padding" ng-repeat="player in $ctrl.playersNotComing track by $index" flex>
+						<div flex class="no-print not-playing {{player.name.toLowerCase()}} md-padding" layout="row" layout-align="start center"
+							style="min-height: 55px;">
+							<div>{{player.name}}</div>
+							<md-button aria-label="Add player back to lineup" class="md-secondary {{player.name.toLowerCase()}}" ng-click="$ctrl.addPlayerToLineup(player,$index)">
+								<md-tooltip>Add {{player.name}} back to lineup</md-tooltip>
+								<ng-md-icon icon="add"></ng-md-icon>
+							</md-button>
+						</div>
+					</md-list-item>
+				</md-list>
+			</div>
+		</div>
+		<div ng-if="!$ctrl.showScoring && $ctrl.showDiagram" flex>
+
+			<div class="diagram" style="margin-top:-16px" ng-repeat="inning in $ctrl.innings track by $index">
+				<h2>{{$index+1}}</h2>
+				<label ng-repeat="p in inning.playing" ng-class="$ctrl.getClass(p)">{{p.player.name}}</label>
+				<div class="md-padding md-whiteframe-1dp sittingBox"><strong>Sitting:</strong>
+					<div class="sitting">
+						<div ng-repeat="player in inning.sitting">
+							<div style="padding:3px" class="{{player.lowercasename}} sitting"> {{player.name}} </div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+		</div>
+	</div>
+
+</md-content>
